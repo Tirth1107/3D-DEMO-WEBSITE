@@ -1,6 +1,6 @@
 import React, { useState, Suspense, useRef, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Environment, ContactShadows, useProgress } from '@react-three/drei'
+import { OrbitControls, Environment, ContactShadows, useProgress, AdaptiveDpr, AdaptiveEvents } from '@react-three/drei'
 import { Table } from './components/Table'
 
 // --- Data & Constants ---
@@ -173,7 +173,7 @@ function App() {
             {/* --- Left Panel: 3D Viewer --- */}
             {/* Mobile: 40% height, Desktop: Full height, 2/3 width */}
             <div className="relative w-full h-[40vh] lg:h-full lg:w-2/3 bg-slate-100 shrink-0">
-                <Canvas shadows camera={{ position: [5, 4, 7], fov: 45 }}>
+                <Canvas shadows camera={{ position: [5, 4, 7], fov: 45 }} dpr={[1, 2]}>
                     <ambientLight intensity={0.5} />
                     <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
 
@@ -189,6 +189,10 @@ function App() {
                             />
                             <ContactShadows position={[0, 0, 0]} opacity={0.6} scale={10} blur={2.5} far={4} />
                         </group>
+
+                        {/* Performance Optimizations */}
+                        <AdaptiveDpr pixelated />
+                        <AdaptiveEvents />
                     </Suspense>
 
                     <OrbitControls
